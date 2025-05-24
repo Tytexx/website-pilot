@@ -15,8 +15,8 @@ import {
   Clock,
   MapPin,
 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "~/components/ui/button"
+import { Card, CardContent } from "~/components/ui/card"
 
 // Data definitions
 const membersData = [

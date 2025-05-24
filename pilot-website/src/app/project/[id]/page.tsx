@@ -1,8 +1,8 @@
 "use client"
 
 import { use } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "~/components/ui/button"
+import { Card, CardContent } from "~/components/ui/card"
 import { Calendar, ExternalLink } from "lucide-react"
 
 // Data definitions (shared with main page)
