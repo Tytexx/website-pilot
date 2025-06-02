@@ -492,12 +492,12 @@ export default function HomePage() {
       const currentSession = await getSession();
       setSession(currentSession);
 
-      if (!currentSession) {
-        router.push("/login");
-        console.log("No session", currentSession);
-      } else {
-        console.log("Session found", currentSession);
-      }
+      // if (!currentSession) {
+      //   router.push("/login");
+      //   console.log("No session", currentSession);
+      // } else {
+      //   console.log("Session found", currentSession);
+      // }
 
       setLoading(false);
     }
@@ -541,15 +541,21 @@ export default function HomePage() {
               </a>
             </div>
             <div className="flex items-center space-x-4">
-              <Button onClick={() => signOut()} variant="outline" size="sm">
-                Log out
-              </Button>
-              <Button  variant="outline" size="sm">
-                Sign Up
-              </Button>
+              {session && (
+                <Button onClick={() => signOut()} variant="outline" size="sm">
+                  Log out
+                </Button>
+              )}
+              {!session && (
+                <Button variant="outline" size="sm">
+                  Sign Up
+                </Button>
+              )}
 
               <Link href="/login">
-                <Button size="sm">{session? session.user.name : "Log In"}</Button>
+                <Button size="sm">
+                  {session ? session.user.name : "Log In"}
+                </Button>
               </Link>
             </div>
           </div>
@@ -573,7 +579,6 @@ export default function HomePage() {
             <Button variant="outline" size="lg" className="px-8">
               Find Talent
             </Button>
-
           </div>
         </div>
       </section>
