@@ -16,12 +16,13 @@ import {
   MapPin,
 } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent } from "~/components/ui/card";
+import { Card, CardContent, } from "~/components/ui/card";
 import Link from "next/link";
 import { auth } from "~/server/auth";
 import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
+import Navigation from "~/components/ui/navigation";
 
 // Data definitions
 const membersData = [
@@ -509,58 +510,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="fixed top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <div className="text-xl font-bold">1e1x</div>
-            <div className="hidden space-x-8 md:flex">
-              <a
-                href="#projects"
-                className="text-gray-600 transition-colors hover:text-black"
-              >
-                Projects
-              </a>
-              <a
-                href="#talent"
-                className="text-gray-600 transition-colors hover:text-black"
-              >
-                Talent
-              </a>
-              <a
-                href="#arena"
-                className="text-gray-600 transition-colors hover:text-black"
-              >
-                Arena
-              </a>
-              <a
-                href="#workshops"
-                className="text-gray-600 transition-colors hover:text-black"
-              >
-                Workshops
-              </a>
-            </div>
-            <div className="flex items-center space-x-4">
-              {session && (
-                <Button onClick={() => signOut()} variant="outline" size="sm">
-                  Log out
-                </Button>
-              )}
-              {!session && (
-                <Button variant="outline" size="sm">
-                  Sign Up
-                </Button>
-              )}
-
-              <Link href="/login">
-                <Button size="sm">
-                  {session ? session.user.name : "Log In"}
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* <Navigation/> */}
 
       {/* Hero Section */}
       <section className="bg-gray-50 px-4 pt-24 pb-16 sm:px-6 lg:px-8">
@@ -573,10 +523,10 @@ export default function HomePage() {
             elevate your skills in Qatar's premier innovation ecosystem.
           </p>
           <div className="flex flex-col justify-center gap-4 sm:flex-row">
-            <Button size="lg" className="px-8">
+            <Button size="lg" className="cursor-pointer px-8">
               Explore Projects
             </Button>
-            <Button variant="outline" size="lg" className="px-8">
+            <Button variant="outline" size="lg" className="cursor-pointer px-8">
               Find Talent
             </Button>
           </div>

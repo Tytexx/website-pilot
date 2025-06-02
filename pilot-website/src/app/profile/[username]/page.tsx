@@ -1,12 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "~/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card"
+import { Input } from "~/components/ui/input"
+import { Label } from "~/components/ui/label"
+import { Textarea } from "~/components/ui/textarea"
+import { Badge } from "~/components/ui/badge"
 import { Camera, Edit3, Save, X, Plus, MapPin, LinkIcon, Github, Linkedin, Twitter, Mail, Calendar } from "lucide-react"
 
 // Mock user data - in real app this would come from your database
@@ -201,36 +201,7 @@ export default function UserProfilePage({ params }: { params: { username: string
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="font-bold text-xl">1e1x</div>
-            <div className="hidden md:flex space-x-8">
-              <a href="/#projects" className="text-gray-600 hover:text-black transition-colors">
-                Projects
-              </a>
-              <a href="/#talent" className="text-gray-600 hover:text-black transition-colors">
-                Talent
-              </a>
-              <a href="/#arena" className="text-gray-600 hover:text-black transition-colors">
-                Arena
-              </a>
-              <a href="/#workshops" className="text-gray-600 hover:text-black transition-colors">
-                Workshops
-              </a>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button variant="outline" size="sm">
-                <a href="/login">Sign In</a>
-              </Button>
-              <Button size="sm">
-                <a href="/login">Log In</a>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+
 
       <div className="pt-20 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
