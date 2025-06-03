@@ -60,6 +60,8 @@ model User {
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
+    roles String[]
+    skills String[]
 }
 
 model VerificationToken {

@@ -82,36 +82,38 @@ export default function UserProfilePage({
       const currentSession = await getSession();
       setSession(currentSession);
     }
-
     checkAuth();
-  }, [router]);
+  }, []);
 
-    async function loadUser() {
-    if (session != null) {
-      const fetchedUserData = await getUserByIdAction(session.user.id);
-      setUserData(fetchedUserData);
-    }
-  }
 
   useEffect(() => {
-    // In a real app, you'd fetch user data from API
-    const fetchUserData = async () => {
-      setIsLoadingProfile(true);
-      try {
+    async function loadUser() {
+      if (session?.user?.id) {
+        console.log("Session ID:", session.user.id);
+
+        const fetchedUserData = await getUserByIdAction(session.user.id);
+        console.log(fetchedUserData);
+        
+        setUserData(fetchedUserData);
+
+      }
+    }
+     try {
         // Simulate API call
-        loadUser()
+        loadUser();
 
         // Check if user exists in our mock data
         if (userData != null) {
           setEditData(userData);
 
-          
-          setIsCurrentUser(username === session.user.name);
+          setIsCurrentUser(username === userData.name);
           // setIsCurrentUser(username === "hussain_ak");
         } else {
           // Handle user not found
           console.error("User not found");
-                    console.log(username);
+          console.log(username);
+          console.log(userData.name);
+          
           console.log(session.user.name);
         }
       } catch (error) {
@@ -119,10 +121,37 @@ export default function UserProfilePage({
       } finally {
         setIsLoadingProfile(false);
       }
-    };
+  }, [session]);
 
-    fetchUserData();
-  }, [username]);
+  // useEffect(() => {
+  //   // In a real app, you'd fetch user data from API
+  //   const fetchUserData = async () => {
+  //     setIsLoadingProfile(true);
+  //     try {
+  //       // Simulate API call
+  //       loadUser();
+
+  //       // Check if user exists in our mock data
+  //       if (userData != null) {
+  //         setEditData(userData);
+
+  //         setIsCurrentUser(username === session.user.name);
+  //         // setIsCurrentUser(username === "hussain_ak");
+  //       } else {
+  //         // Handle user not found
+  //         console.error("User not found");
+  //         console.log(username);
+  //         console.log(session.user.name);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     } finally {
+  //       setIsLoadingProfile(false);
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, [username]);
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -223,7 +252,7 @@ export default function UserProfilePage({
                 {/* Avatar Section */}
                 <div className="relative">
                   <img
-                    src={userData.avatar_url || "/placeholder.svg"}
+                    src={userData.image || "/placeholder.svg"}
                     alt={`${userData.firstName} ${userData.lastName}`}
                     className="h-32 w-32 rounded-full border-4 border-white object-cover shadow-lg"
                   />
@@ -239,11 +268,11 @@ export default function UserProfilePage({
                   <div className="mb-4 flex items-start justify-between">
                     <div>
                       <h1 className="mb-2 text-3xl font-bold text-gray-900">
-                        {userData.firstName} {userData.lastName}
+                        {userData.name}
                       </h1>
-                      <p className="mb-2 text-gray-600">@{userData.username}</p>
+                      <p className="mb-2 text-gray-600">@{userData.email.split('@')[0]}</p>
                       <div className="mb-3 flex flex-wrap gap-2">
-                        {userData.roles.map((role: string) => (
+                        {/* {userData.roles.map((role: string) => (
                           <Badge
                             key={role}
                             variant="secondary"
@@ -251,7 +280,7 @@ export default function UserProfilePage({
                           >
                             {role}
                           </Badge>
-                        ))}
+                        ))} */}
                       </div>
                     </div>
                     {isCurrentUser && !isEditing && (
@@ -275,43 +304,45 @@ export default function UserProfilePage({
                   <div className="mb-4 grid grid-cols-2 gap-4 md:grid-cols-4">
                     <div className="text-center">
                       <div className="text-2xl font-bold text-gray-900">
-                        {userData.projects}
+                        {/* {userData.projects} */}
+                        69
                       </div>
                       <div className="text-sm text-gray-600">Projects</div>
                     </div>
                     <div className="text-center">
                       <div className="text-2xl font-bold text-gray-900">
                         {userData.contributions}
+                        10
                       </div>
                       <div className="text-sm text-gray-600">Contributions</div>
                     </div>
-                    <div className="text-center">
+                    {/* <div className="text-center">
                       <div className="text-2xl font-bold text-gray-900">
                         {userData.followers}
                       </div>
                       <div className="text-sm text-gray-600">Followers</div>
-                    </div>
+                    </div> */}
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-gray-900">
+                      {/* <div className="text-2xl font-bold text-gray-900">
                         {userData.following}
                       </div>
-                      <div className="text-sm text-gray-600">Following</div>
+                      <div className="text-sm text-gray-600">Following</div> */}
                     </div>
                   </div>
 
                   {/* Bio */}
-                  <p className="mb-4 text-gray-700">{userData.bio}</p>
+                  <p className="mb-4 text-gray-700">{userData.bio? userData.bio : "Add a bio to share your interests!"}</p>
 
                   {/* Quick Info */}
                   <div className="flex flex-wrap gap-4 text-sm text-gray-600">
                     <div className="flex items-center gap-1">
                       <MapPin className="h-4 w-4" />
-                      {userData.location}
+                      {userData.location? userData.location : "Not Given"}
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
                       Joined{" "}
-                      {new Date(userData.joinDate).toLocaleDateString("en-US", {
+                      {new Date(userData.joinDate? userData.joinDate : "Not Given").toLocaleDateString("en-US", {
                         month: "long",
                         year: "numeric",
                       })}
@@ -524,7 +555,7 @@ export default function UserProfilePage({
                 <div>
                   <Label>Skills</Label>
                   <div className="mb-3 flex flex-wrap gap-2">
-                    {editData.skills.map((skill: string) => (
+                    {/* {editData.skills.map((skill: string) => (
                       <Badge
                         key={skill}
                         variant="secondary"
@@ -538,7 +569,7 @@ export default function UserProfilePage({
                           <X className="h-3 w-3" />
                         </button>
                       </Badge>
-                    ))}
+                    ))} */}
                   </div>
                   <div className="flex gap-2">
                     <Input
@@ -564,7 +595,8 @@ export default function UserProfilePage({
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {userData.skills.map((skill: string) => (
+                  Skills here
+                  {/* {userData.skills.map((skill: string) => (
                     <Badge
                       key={skill}
                       variant="secondary"
@@ -572,7 +604,7 @@ export default function UserProfilePage({
                     >
                       {skill}
                     </Badge>
-                  ))}
+                  ))} */}
                 </div>
               </CardContent>
             </Card>
@@ -586,7 +618,7 @@ export default function UserProfilePage({
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-                  {userData.website && (
+                  {!userData.website && (
                     <a
                       href={userData.website}
                       target="_blank"
@@ -597,7 +629,7 @@ export default function UserProfilePage({
                       <span className="text-sm font-medium">Website</span>
                     </a>
                   )}
-                  {userData.github && (
+                  {!userData.github && (
                     <a
                       href={`https://github.com/${userData.github}`}
                       target="_blank"
@@ -608,7 +640,7 @@ export default function UserProfilePage({
                       <span className="text-sm font-medium">GitHub</span>
                     </a>
                   )}
-                  {userData.linkedin && (
+                  {!userData.linkedin && (
                     <a
                       href={`https://linkedin.com/in/${userData.linkedin}`}
                       target="_blank"
@@ -619,7 +651,7 @@ export default function UserProfilePage({
                       <span className="text-sm font-medium">LinkedIn</span>
                     </a>
                   )}
-                  {userData.twitter && (
+                  {!userData.twitter && (
                     <a
                       href={`https://twitter.com/${userData.twitter}`}
                       target="_blank"

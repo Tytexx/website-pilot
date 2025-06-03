@@ -16,9 +16,6 @@ export default function ProfilePage() {
         const username = currentSession.user.name;
         router.push(`/profile/${username}`);
         console.log(username);
-      } else {
-        // Optional: redirect to login
-        router.push("/auth/signin");
       }
     }
 
@@ -26,12 +23,6 @@ export default function ProfilePage() {
   }, [router]);
 
   const [session, setSession] = useState<Object | null>(null);
-
-  // useEffect(() => {
-  //   // In a real app, you'd get the current user's username from auth context
-  //   const currentUsername = "hussain_ak"; // Example username
-  //   router.push(`/profile/${session.user.name}`);
-  // }, [router]);
 
   return (
     <div className="flex min-h-screen items-center justify-center">
