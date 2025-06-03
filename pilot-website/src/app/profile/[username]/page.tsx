@@ -24,40 +24,6 @@ import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
 import { getUserByIdAction } from "~/app/actions/server-actions";
 
-// Mock user data - in real app this would come from your database
-const usersData = {
-  hussain_ak: {
-    id: "user-123",
-    firstName: "Hussain",
-    lastName: "Abdul Kadhir",
-    username: "hussain_ak",
-    email: "hussain@1e1x.qa",
-    bio: "Passionate data scientist and UI designer building the future of innovation in Qatar. Love turning complex data into beautiful, actionable insights.",
-    location: "Doha, Qatar",
-    website: "https://hussain-ak.dev",
-    github: "hussain-ak",
-    linkedin: "hussain-abdul-kadhir",
-    twitter: "hussain_ak_dev",
-    avatar_url: "/placeholder.svg?height=120&width=120",
-    joinDate: "2024-03-15",
-    roles: ["Data Scientist", "UI Designer"],
-    skills: [
-      "Python",
-      "SQL",
-      "Figma",
-      "Data Visualization",
-      "UX Research",
-      "Machine Learning",
-      "React",
-      "TypeScript",
-    ],
-    projects: 8,
-    contributions: 24,
-    followers: 156,
-    following: 89,
-  },
-};
-
 export default function UserProfilePage({
   params,
 }: {
@@ -85,73 +51,29 @@ export default function UserProfilePage({
     checkAuth();
   }, []);
 
-
   useEffect(() => {
     async function loadUser() {
-      if (session?.user?.id) {
-        console.log("Session ID:", session.user.id);
+      try {
+        if (session?.user?.id) {
+          console.log("Session ID:", session.user.id);
 
-        const fetchedUserData = await getUserByIdAction(session.user.id);
-        console.log(fetchedUserData);
-        
-        setUserData(fetchedUserData);
+          const fetchedUserData = await getUserByIdAction(session.user.id);
+          console.log(fetchedUserData);
 
-      }
-    }
-     try {
-        // Simulate API call
-        loadUser();
-
-        // Check if user exists in our mock data
-        if (userData != null) {
-          setEditData(userData);
-
-          setIsCurrentUser(username === userData.name);
-          // setIsCurrentUser(username === "hussain_ak");
-        } else {
-          // Handle user not found
-          console.error("User not found");
-          console.log(username);
-          console.log(userData.name);
-          
-          console.log(session.user.name);
+          if (fetchedUserData) {
+            setUserData(fetchedUserData);
+            setEditData(fetchedUserData);
+            setIsCurrentUser(username === fetchedUserData.name);
+          }
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
         setIsLoadingProfile(false);
       }
+    }
+    loadUser();
   }, [session]);
-
-  // useEffect(() => {
-  //   // In a real app, you'd fetch user data from API
-  //   const fetchUserData = async () => {
-  //     setIsLoadingProfile(true);
-  //     try {
-  //       // Simulate API call
-  //       loadUser();
-
-  //       // Check if user exists in our mock data
-  //       if (userData != null) {
-  //         setEditData(userData);
-
-  //         setIsCurrentUser(username === session.user.name);
-  //         // setIsCurrentUser(username === "hussain_ak");
-  //       } else {
-  //         // Handle user not found
-  //         console.error("User not found");
-  //         console.log(username);
-  //         console.log(session.user.name);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching user data:", error);
-  //     } finally {
-  //       setIsLoadingProfile(false);
-  //     }
-  //   };
-
-  //   fetchUserData();
-  // }, [username]);
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -270,7 +192,9 @@ export default function UserProfilePage({
                       <h1 className="mb-2 text-3xl font-bold text-gray-900">
                         {userData.name}
                       </h1>
-                      <p className="mb-2 text-gray-600">@{userData.email.split('@')[0]}</p>
+                      <p className="mb-2 text-gray-600">
+                        @{userData.email.split("@")[0]}
+                      </p>
                       <div className="mb-3 flex flex-wrap gap-2">
                         {/* {userData.roles.map((role: string) => (
                           <Badge
@@ -305,7 +229,7 @@ export default function UserProfilePage({
                     <div className="text-center">
                       <div className="text-2xl font-bold text-gray-900">
                         {/* {userData.projects} */}
-                        69
+                        20
                       </div>
                       <div className="text-sm text-gray-600">Projects</div>
                     </div>
@@ -331,18 +255,24 @@ export default function UserProfilePage({
                   </div>
 
                   {/* Bio */}
-                  <p className="mb-4 text-gray-700">{userData.bio? userData.bio : "Add a bio to share your interests!"}</p>
+                  <p className="mb-4 text-gray-700">
+                    {userData.bio
+                      ? userData.bio
+                      : "Add a bio to share your interests!"}
+                  </p>
 
                   {/* Quick Info */}
                   <div className="flex flex-wrap gap-4 text-sm text-gray-600">
                     <div className="flex items-center gap-1">
                       <MapPin className="h-4 w-4" />
-                      {userData.location? userData.location : "Not Given"}
+                      {userData.location ? userData.location : "Not Given"}
                     </div>
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
                       Joined{" "}
-                      {new Date(userData.joinDate? userData.joinDate : "Not Given").toLocaleDateString("en-US", {
+                      {new Date(
+                        userData.joinDate ? userData.joinDate : "Not Given",
+                      ).toLocaleDateString("en-US", {
                         month: "long",
                         year: "numeric",
                       })}
